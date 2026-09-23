@@ -1,0 +1,148 @@
+---
+/**
+ * Pure-CSS starfield. Star positions are generated at build time with a seeded
+ * PRNG so the sky is identical on every build (no layout shift, no JS).
+ */
+
+const FIELD = 2000; // px height of one tile; the layer scrolls by exactly this
+
+function mulberry32(seed: number) {
+	return function () {
+		seed |= 0;
+		seed = (seed + 0x6d2b79f5) | 0;
+		let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+		t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+	};
+}
+
+function stars(count: number, seed: number, colors: string[]) {
+	const rand = mulberry32(seed);
+	const shadows: string[] = [];
+	for (let i = 0; i < count; i++) {
+		const x = Math.round(rand() * 100 * 20) / 10; // 0–200vw in 0.1 steps
+		const y = Math.round(rand() * FIELD);
+		const color = colors[Math.floor(rand() * colors.length)];
+		shadows.push(`${x}vw ${y}px ${color}`);
+	}
+	return shadows.join(", ");
+}
+
+const dim = ["#3a3a3d", "#4a4a4d", "#2f2f32"];
+const mid = ["#6a686d", "#7d7a80", "#5f8787"];
+const bright = ["#c1c1c1", "#e78a53", "#fbcb97", "#ffffff"];
+
+const layerFar = stars(260, 1337, dim);
+const layerMid = stars(120, 90210, mid);
+const layerNear = stars(36, 4242, bright);
+---
+
+<div class="sky" aria-hidden="true">
+	<div class="nebula"></div>
+	<div class="layer far"></div>
+	<div class="layer mid"></div>
+	<div class="layer near"></div>
+	<div class="vignette"></div>
+</div>
+
+<style define:vars={{ layerFar, layerMid, layerNear, field: `${FIELD}px` }}>
+	.sky {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+		background: var(--bg);
+	}
+
+	.nebula {
+		position: absolute;
+		inset: -20% -10% auto -10%;
+		height: 120vh;
+		background:
+			radial-gradient(
+				48vw 40vh at 18% 12%,
+				rgba(231, 138, 83, 0.045),
+				transparent 70%
+			),
+			radial-gradient(
+				40vw 34vh at 82% 6%,
+				rgba(95, 135, 135, 0.04),
+				transparent 70%
+			),
+			radial-gradient(
+				60vw 40vh at 50% 62%,
+				rgba(251, 203, 151, 0.015),
+				transparent 75%
+			);
+		filter: blur(6px);
+	}
+
+	.layer {
+		position: absolute;
+		top: 0;
+		left: 0;
+		border-radius: 50%;
+		background: transparent;
+		animation: drift linear infinite;
+	}
+
+	/* The ::after clone sits one tile below so the scroll loops seamlessly. */
+	.layer::after {
+		content: "";
+		position: absolute;
+		top: var(--field);
+		left: 0;
+		width: inherit;
+		height: inherit;
+		border-radius: inherit;
+		box-shadow: inherit;
+	}
+
+	.far {
+		width: 1px;
+		height: 1px;
+		box-shadow: var(--layerFar);
+		animation-duration: 300s;
+	}
+
+	.mid {
+		width: 1.5px;
+		height: 1.5px;
+		box-shadow: var(--layerMid);
+		animation-duration: 190s;
+	}
+
+	.near {
+		width: 2px;
+		height: 2px;
+		box-shadow: var(--layerNear);
+		animation-duration: 120s;
+		opacity: 0.9;
+	}
+
+	.vignette {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(
+			120% 80% at 50% 0%,
+			transparent 40%,
+			rgba(18, 17, 19, 0.85) 100%
+		);
+	}
+
+	@keyframes drift {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(calc(var(--field) * -1));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.layer {
+			animation: none;
+		}
+	}
+</style>

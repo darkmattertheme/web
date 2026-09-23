@@ -1,0 +1,148 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PortCard from "../components/PortCard.astro";
+import { ports, categories } from "../data/ports";
+
+const present = categories.filter((category) =>
+	ports.some((port) => port.category === category),
+);
+---
+
+<Layout
+	title="Ports — DARKMATTER"
+	description="Darkmatter ports for Ghostty, WezTerm, Alacritty, Neovim, Zed, Vim, Nushell, Rofi, Linux desktops, and more."
+>
+	<section class="head">
+		<div class="wrap">
+			<h1 class="title">Everywhere the dark reaches</h1>
+			<p class="lead">
+				{ports.length} places you can run Darkmatter today. Missing one? The
+        palette is right{" "}
+				<a href="/palette">here</a> — open a PR and it goes on this page.
+			</p>
+
+			<div class="filters" role="group" aria-label="Filter ports by category">
+				<button class="chip is-active" type="button" data-filter="all">
+					All <span class="count">{ports.length}</span>
+				</button>
+				{
+					present.map((category) => (
+						<button class="chip" type="button" data-filter={category}>
+							{category}
+							<span class="count">
+								{ports.filter((port) => port.category === category).length}
+							</span>
+						</button>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="list">
+		<div class="wrap">
+			<div class="grid">
+				{ports.map((port) => <PortCard port={port} />)}
+			</div>
+			<p class="empty" hidden>No ports in that category yet.</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.head {
+		padding-top: clamp(48px, 9vw, 88px);
+	}
+
+	.title {
+		font-size: clamp(1.9rem, 6vw, 3rem);
+		margin-bottom: 16px;
+	}
+
+	.lead a {
+		color: var(--accent);
+		border-bottom: 1px solid rgba(231, 138, 83, 0.4);
+	}
+
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 32px;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 7px 13px;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		background: var(--surface);
+		color: var(--text-dim);
+		font: inherit;
+		font-size: 12.5px;
+		cursor: pointer;
+		transition: color 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+	}
+
+	.chip:hover {
+		color: var(--text-bright);
+		border-color: var(--border-bright);
+	}
+
+	.chip.is-active {
+		color: var(--text-bright);
+		border-color: var(--accent);
+		background: rgba(231, 138, 83, 0.08);
+	}
+
+	.count {
+		font-size: 10px;
+		color: var(--text-dim);
+	}
+
+	.chip.is-active .count {
+		color: var(--accent);
+	}
+
+	.list {
+		padding-block: 36px clamp(56px, 9vw, 96px);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+		gap: 14px;
+	}
+
+	.empty {
+		padding-block: 48px;
+		text-align: center;
+		color: var(--text-dim);
+		font-size: 13px;
+	}
+</style>
+
+<script>
+	const chips = document.querySelectorAll<HTMLButtonElement>(".chip");
+	const cards = document.querySelectorAll<HTMLElement>(".grid > *");
+	const empty = document.querySelector<HTMLElement>(".empty");
+
+	chips.forEach((chip) => {
+		chip.addEventListener("click", () => {
+			const filter = chip.dataset.filter ?? "all";
+
+			chips.forEach((other) => other.classList.toggle("is-active", other === chip));
+
+			let visible = 0;
+			cards.forEach((card) => {
+				const match = filter === "all" || card.dataset.category === filter;
+				card.hidden = !match;
+				if (match) visible++;
+			});
+
+			if (empty) empty.hidden = visible > 0;
+		});
+	});
+</script>

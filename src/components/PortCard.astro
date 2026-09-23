@@ -1,0 +1,205 @@
+---
+import type { Port } from "../data/ports";
+
+interface Props {
+	port: Port;
+}
+
+const { port } = Astro.props;
+---
+
+<article class="card" id={port.slug} data-category={port.category}>
+	<div class="head">
+		<span class="sigil" aria-hidden="true">{port.sigil}</span>
+		<div class="titles">
+			<h3 class="name">
+				<a href={port.url} target="_blank" rel="noreferrer">
+					{port.name}
+					{port.wip && <span class="wip">wip</span>}
+				</a>
+			</h3>
+			<span class="cat">{port.category}</span>
+		</div>
+		<svg class="arrow" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+			<path
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.8"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M7 17 17 7M9 7h8v8"></path>
+		</svg>
+	</div>
+
+	<p class="desc">{port.description}</p>
+
+	{
+		port.install && (
+			<button class="snippet" type="button" data-copy={port.install}>
+				<code>{port.install}</code>
+				<span class="copy" data-copy-label>copy</span>
+			</button>
+		)
+	}
+</article>
+
+<style>
+	.card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 20px;
+		border: 1px solid var(--border);
+		border-radius: 14px;
+		background: linear-gradient(
+			180deg,
+			var(--surface) 0%,
+			rgba(18, 17, 19, 0.85) 100%
+		);
+		transition: border-color 0.2s ease, transform 0.2s ease,
+			box-shadow 0.2s ease;
+		scroll-margin-top: 80px;
+	}
+
+	.card:hover {
+		border-color: var(--border-bright);
+		transform: translateY(-3px);
+		box-shadow: 0 20px 40px -28px rgba(0, 0, 0, 0.95);
+	}
+
+	.head {
+		display: flex;
+		align-items: center;
+		gap: 13px;
+	}
+
+	.sigil {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 38px;
+		height: 38px;
+		border-radius: 10px;
+		border: 1px solid var(--border-bright);
+		background: var(--base01);
+		color: var(--accent);
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		transition: color 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card:hover .sigil {
+		box-shadow: 0 0 20px -4px rgba(231, 138, 83, 0.45);
+	}
+
+	.titles {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		min-width: 0;
+	}
+
+	.name {
+		font-size: 15px;
+	}
+
+	/* Stretched link: the whole card is clickable, the snippet sits above it. */
+	.name a::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+	}
+
+	.wip {
+		margin-left: 7px;
+		padding: 1px 6px;
+		border-radius: 999px;
+		border: 1px solid var(--border-bright);
+		font-size: 10px;
+		color: var(--text-dim);
+		letter-spacing: 0.08em;
+		vertical-align: middle;
+	}
+
+	.cat {
+		font-size: 11px;
+		color: var(--text-dim);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.arrow {
+		margin-left: auto;
+		color: var(--base03);
+		transition: color 0.2s ease, transform 0.2s ease;
+	}
+
+	.card:hover .arrow {
+		color: var(--accent);
+		transform: translate(2px, -2px);
+	}
+
+	.desc {
+		font-size: 13px;
+		color: var(--text-dim);
+		line-height: 1.6;
+	}
+
+	.snippet {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: auto;
+		padding: 9px 12px;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		background: var(--base01);
+		color: var(--base0B);
+		font: inherit;
+		font-size: 12px;
+		text-align: left;
+		cursor: pointer;
+		overflow: hidden;
+		transition: border-color 0.18s ease, background 0.18s ease;
+	}
+
+	.snippet:hover {
+		border-color: var(--border-bright);
+		background: var(--base02);
+	}
+
+	.snippet code {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-family: var(--mono);
+	}
+
+	.copy {
+		flex: none;
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--text-dim);
+	}
+
+	.snippet.is-copied .copy {
+		color: var(--accent);
+	}
+
+	.snippet.is-failed .copy {
+		color: var(--base08);
+	}
+</style>
+
+<script>
+	import { wireCopy } from "../scripts/copy";
+
+	wireCopy(".snippet", 1200);
+</script>

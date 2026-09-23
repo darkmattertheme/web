@@ -1,0 +1,180 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Palette from "../components/Palette.astro";
+import { ansi } from "../data/palette";
+
+const ansiNames = [
+	"black",
+	"red",
+	"green",
+	"yellow",
+	"blue",
+	"magenta",
+	"cyan",
+	"white",
+	"bright black",
+	"bright red",
+	"bright green",
+	"bright yellow",
+	"bright blue",
+	"bright magenta",
+	"bright cyan",
+	"bright white",
+];
+---
+
+<Layout
+	title="Palette — DARKMATTER"
+	description="The sixteen colors behind Darkmatter: every base16 slot and the ANSI mapping."
+>
+	<section class="head">
+		<div class="wrap">
+			<h1 class="title">Palette</h1>
+		</div>
+	</section>
+
+	<section class="block">
+		<div class="wrap">
+			<h2 class="h2">base16 slots</h2>
+			<p class="lead pad-sm">
+				Darkmatter follows the base16 spec, so any base16-aware template will
+				build a port for you.
+			</p>
+			<div class="pad">
+				<Palette />
+			</div>
+		</div>
+	</section>
+
+	<section class="block last">
+		<div class="wrap">
+			<h2 class="h2">Terminal mapping</h2>
+			<p class="lead pad-sm">
+				How the palette lands on the sixteen ANSI slots your terminal actually
+				uses.
+			</p>
+
+			<div class="ansi pad">
+				{
+					ansi.map((hex, i) => (
+						<button class="ansi-row" type="button" data-copy={hex}>
+							<span class="ansi-chip" style={`background:${hex}`} />
+							<span class="ansi-i">{i}</span>
+							<span class="ansi-name">{ansiNames[i]}</span>
+							<span class="ansi-hex">{hex}</span>
+						</button>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+</Layout>
+
+<style>
+	.head {
+		padding-top: clamp(48px, 9vw, 88px);
+	}
+
+	.title {
+		font-size: clamp(1.9rem, 6vw, 3rem);
+		margin-bottom: 16px;
+	}
+
+	.h2 {
+		font-size: clamp(1.25rem, 3.4vw, 1.6rem);
+	}
+
+	.block {
+		padding-top: clamp(44px, 7vw, 72px);
+	}
+
+	.last {
+		padding-bottom: clamp(56px, 9vw, 96px);
+	}
+
+	.pad {
+		margin-top: 24px;
+	}
+
+	.pad-sm {
+		margin-top: 10px;
+	}
+
+	/* ansi table */
+	.ansi {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.ansi-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 8px 12px;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		background: var(--surface);
+		color: inherit;
+		font: inherit;
+		font-size: 12.5px;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color 0.16s ease, background 0.16s ease;
+	}
+
+	.ansi-row:hover {
+		border-color: var(--border-bright);
+		background: var(--surface-hover);
+	}
+
+	.ansi-row.is-copied .ansi-hex {
+		color: var(--accent);
+	}
+
+	.ansi-row.is-failed .ansi-hex {
+		color: var(--base08);
+	}
+
+	.ansi-chip {
+		flex: none;
+		width: 20px;
+		height: 20px;
+		border-radius: 5px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.ansi-i {
+		flex: none;
+		width: 2ch;
+		color: var(--base0F);
+		text-align: right;
+	}
+
+	.ansi-name {
+		flex: 1;
+		min-width: 0;
+		color: var(--text);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.ansi-hex {
+		flex: none;
+		color: var(--text-dim);
+	}
+
+	@media (max-width: 620px) {
+		.ansi {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	import { wireCopy } from "../scripts/copy";
+
+	wireCopy(".ansi-row");
+</script>

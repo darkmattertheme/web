@@ -1,0 +1,124 @@
+---
+/**
+ * A static "editor window" painted with the theme's own colors, so the
+ * landing page shows the theme instead of describing it.
+ */
+---
+
+<div class="window">
+	<div class="bar">
+		<span class="traffic"></span>
+		<span class="traffic"></span>
+		<span class="traffic"></span>
+		<span class="file">orbit.ts</span>
+	</div>
+
+<pre class="code"><code><span class="ln"> 1</span><span class="cm">// darkmatter — black metal, in orbit</span>
+<span class="ln"> 2</span><span class="kw">import</span> <span class="fn">&#123; gravity &#125;</span> <span class="kw">from</span> <span class="str">"./physics"</span>
+<span class="ln"> 3</span>
+<span class="ln"> 4</span><span class="kw">export interface</span> <span class="cls">Body</span> <span class="pn">&#123;</span>
+<span class="ln"> 5</span>  <span class="var">name</span><span class="pn">:</span> <span class="cls">string</span>
+<span class="ln"> 6</span>  <span class="var">mass</span><span class="pn">:</span> <span class="cls">number</span>
+<span class="ln"> 7</span><span class="pn">&#125;</span>
+<span class="ln"> 8</span>
+<span class="ln"> 9</span><span class="kw">export const</span> <span class="fn">orbit</span> <span class="pn">= (</span><span class="var">bodies</span><span class="pn">:</span> <span class="cls">Body</span><span class="pn">[]) =&gt; &#123;</span>
+<span class="ln">10</span>  <span class="kw">const</span> <span class="var">total</span> <span class="pn">=</span> <span class="var">bodies</span><span class="pn">.</span><span class="fn">reduce</span><span class="pn">((</span><span class="var">m</span><span class="pn">,</span> <span class="var">b</span><span class="pn">) =&gt;</span> <span class="var">m</span> <span class="pn">+</span> <span class="var">b</span><span class="pn">.</span><span class="var">mass</span><span class="pn">,</span> <span class="num">0</span><span class="pn">)</span>
+<span class="ln">11</span>  <span class="kw">if</span> <span class="pn">(</span><span class="var">total</span> <span class="pn">&gt;</span> <span class="num">1e30</span><span class="pn">)</span> <span class="kw">throw new</span> <span class="cls">Error</span><span class="pn">(</span><span class="str">"collapse"</span><span class="pn">)</span>
+<span class="ln">12</span>  <span class="kw">return</span> <span class="fn">gravity</span><span class="pn">(</span><span class="var">total</span><span class="pn">)</span>
+<span class="ln">13</span><span class="pn">&#125;</span>
+</code></pre>
+
+</div>
+
+<style>
+	.window {
+		border: 1px solid var(--border);
+		text-align: left;
+		border-radius: 12px;
+		background: var(--base00);
+		overflow: hidden;
+		box-shadow:
+			0 1px 0 rgba(255, 255, 255, 0.03) inset,
+			0 30px 70px -30px rgba(0, 0, 0, 0.9);
+    max-width: 720px;
+    margin: 0 auto;
+	}
+
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		padding: 10px 14px;
+		background: var(--base01);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.traffic {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--base03);
+	}
+
+	.traffic:first-child {
+		background: var(--base0F);
+	}
+
+	.file {
+		margin-left: 10px;
+		font-size: 12px;
+		color: var(--text-dim);
+	}
+
+	.code {
+		margin: 0;
+		padding: 18px 16px 20px;
+		font-size: 13px;
+		line-height: 1.7;
+		overflow-x: auto;
+		tab-size: 2;
+	}
+
+	code {
+		font-family: var(--mono);
+	}
+
+	.ln {
+		display: inline-block;
+		width: 2.5ch;
+		margin-right: 16px;
+		color: var(--base03);
+		user-select: none;
+	}
+
+	.cm {
+		color: var(--base03);
+	}
+	.kw {
+		color: var(--base0E);
+	}
+	.fn {
+		color: var(--base0D);
+	}
+	.cls {
+		color: var(--base0A);
+	}
+	.str {
+		color: var(--base0B);
+	}
+	.num {
+		color: var(--base09);
+	}
+	.var {
+		color: var(--base08);
+	}
+	.pn {
+		color: var(--base05);
+	}
+
+	@media (max-width: 560px) {
+		.code {
+			font-size: 11.5px;
+		}
+	}
+</style>

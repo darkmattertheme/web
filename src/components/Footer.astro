@@ -1,0 +1,48 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+	<div class="wrap inner">
+		<p class="line">
+			DARKMATTER — a theme by <a href="https://stevedylan.dev">Steve</a>, based
+			on <a href="https://github.com/metalelf0/base16-black-metal-scheme">Black Metal Bathory</a>.
+		</p>
+		<p class="line dim">&copy; {year} · MIT</p>
+	</div>
+</footer>
+
+<style>
+	.foot {
+		border-top: 1px solid var(--border);
+		padding-block: 28px;
+		margin-top: 40px;
+	}
+
+	.inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.line {
+		font-size: 12px;
+		color: var(--text-dim);
+	}
+
+	.line a {
+		color: var(--text);
+		border-bottom: 1px solid var(--border-bright);
+	}
+
+	.line a:hover {
+		color: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.dim {
+		opacity: 0.7;
+	}
+</style>

@@ -1,0 +1,210 @@
+@font-face {
+	font-family: "CommitMono";
+	src: url("/fonts/CommitMono-Regular.woff") format("woff");
+	font-weight: 400 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "CommitMono";
+	src: url("/fonts/CommitMono-Bold.woff") format("woff");
+	font-weight: 600 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "CommitMono";
+	src: url("/fonts/CommitMono-Italic.woff") format("woff");
+	font-weight: 400 500;
+	font-style: italic;
+	font-display: swap;
+}
+
+:root {
+	/* base16 — black metal bathory */
+	--base00: #121113;
+	--base01: #121212;
+	--base02: #222222;
+	--base03: #333333;
+	--base04: #999999;
+	--base05: #c1c1c1;
+	--base06: #999999;
+	--base07: #c1c1c1;
+	--base08: #5f8787;
+	--base09: #aaaaaa;
+	--base0A: #e78a53;
+	--base0B: #fbcb97;
+	--base0C: #aaaaaa;
+	--base0D: #888888;
+	--base0E: #999999;
+	--base0F: #444444;
+
+	/* semantic */
+	--bg: var(--base00);
+	--surface: #171618;
+	--surface-hover: #1d1c1f;
+	--border: #262528;
+	--border-bright: #3a383d;
+	--text: var(--base05);
+	--text-dim: #77757a;
+	--text-bright: #eceaee;
+	--accent: var(--base0A);
+	--accent-soft: var(--base0B);
+	--cool: var(--base08);
+
+	--mono: "CommitMono", ui-monospace, "SF Mono", SFMono-Regular, Menlo,
+		Consolas, "Liberation Mono", monospace;
+
+	--page: 1120px;
+	--radius: 10px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	background-color: var(--bg);
+	color-scheme: dark;
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	/* No background here: the fixed starfield sits at z-index -1 and body's own
+	   background would paint over it. The canvas colour comes from <html>. */
+	color: var(--text);
+	font-family: var(--mono);
+	font-size: 15px;
+	line-height: 1.65;
+	font-feature-settings: "zero" 1; /* slashed zero, like the terminal */
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: var(--text-bright);
+	font-weight: 500;
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+a {
+	color: var(--text);
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--accent);
+}
+
+img,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+::selection {
+	background: var(--base02);
+	color: var(--text-bright);
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+/* ---------- layout primitives ---------- */
+
+.wrap {
+	width: 100%;
+	max-width: var(--page);
+	margin-inline: auto;
+	padding-inline: 24px;
+}
+
+.section {
+	padding-block: clamp(64px, 10vw, 112px);
+}
+
+.lead {
+	color: var(--text-dim);
+	max-width: 60ch;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 18px;
+	border-radius: var(--radius);
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--text);
+	font-family: inherit;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+		transform 0.18s ease;
+}
+
+.btn:hover {
+	background: var(--surface-hover);
+	border-color: var(--border-bright);
+	color: var(--text-bright);
+	transform: translateY(-1px);
+}
+
+.btn--primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #17120e;
+	font-weight: 500;
+}
+
+.btn--primary:hover {
+	background: var(--accent-soft);
+	border-color: var(--accent-soft);
+	color: #17120e;
+}
+
+.btn--ghost {
+	background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+	}
+}
+
+/* [hidden] must beat component display rules (used by the ports filter) */
+[hidden] {
+	display: none !important;
+}

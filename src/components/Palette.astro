@@ -1,0 +1,134 @@
+---
+import { palette } from "../data/palette";
+---
+
+<div class="grid">
+	{
+		palette.map((swatch) => (
+			<button class="swatch" type="button" data-copy={swatch.hex}>
+				<span class="chip" style={`background:${swatch.hex}`} />
+				<span class="meta">
+					<span class="top">
+						<span class="name">{swatch.name}</span>
+						<span class="key">{swatch.key}</span>
+					</span>
+					<span class="hex">{swatch.hex}</span>
+					<span class="role">{swatch.role}</span>
+				</span>
+				<span class="copied" data-copy-label aria-hidden="true">
+					copied
+				</span>
+			</button>
+		))
+	}
+</div>
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	@media (max-width: 620px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.swatch {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		padding: 12px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+		color: inherit;
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+		overflow: hidden;
+		transition: border-color 0.18s ease, background 0.18s ease,
+			transform 0.18s ease;
+	}
+
+	.swatch:hover {
+		border-color: var(--border-bright);
+		background: var(--surface-hover);
+		transform: translateY(-2px);
+	}
+
+	.chip {
+		flex: none;
+		width: 42px;
+		height: 42px;
+		border-radius: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.meta {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		min-width: 0;
+	}
+
+	.top {
+		display: flex;
+		align-items: baseline;
+		gap: 8px;
+	}
+
+	.name {
+		font-size: 13px;
+		color: var(--text-bright);
+	}
+
+	.key {
+		font-size: 10px;
+		color: var(--base0F);
+		letter-spacing: 0.06em;
+	}
+
+	.hex {
+		font-size: 12px;
+		color: var(--accent);
+	}
+
+	.role {
+		font-size: 11px;
+		color: var(--text-dim);
+	}
+
+	.copied {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		background: var(--surface);
+		color: var(--accent);
+		font-size: 12px;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.15s ease;
+	}
+
+	.swatch.is-copied .copied,
+	.swatch.is-failed .copied {
+		opacity: 1;
+	}
+
+	.swatch.is-failed .copied {
+		color: var(--base08);
+	}
+</style>
+
+<script>
+	import { wireCopy } from "../scripts/copy";
+
+	wireCopy(".swatch", 900);
+</script>

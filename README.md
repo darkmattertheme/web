@@ -1,46 +1,48 @@
-# Astro Starter Kit: Basics
+# darkmatter-theme
 
-```sh
-bun create astro@latest -- --template basics
-```
+The site for [DARKMATTER](https://github.com/stevedylandev/darkmatter) — a dark
+theme based on [Black Metal Bathory](https://github.com/metalelf0/base16-black-metal-scheme).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+├── components/     Starfield, Nav, Footer, PortCard, Palette, CodePreview
+├── data/
+│   ├── palette.ts  the 16 base16 slots + the ANSI mapping
+│   └── ports.ts    every port, as an array of objects
+├── layouts/        Layout.astro (meta, starfield, chrome)
+├── pages/
+│   ├── index.astro landing page
+│   └── ports.astro all ports, filterable by category
+└── styles/
+    └── global.css  palette as CSS custom properties + primitives
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Adding a port
 
-## 🧞 Commands
+Append an object to `ports` in `src/data/ports.ts`. Both the landing page and
+`/ports` map over that array, so nothing else needs to change.
 
-All commands are run from the root of the project, from a terminal:
+```ts
+{
+  name: "Helix",
+  slug: "helix",
+  description: "A theme.toml for the Helix editor.",
+  category: "Editor",
+  url: "https://github.com/stevedylandev/…",
+  sigil: "hx",          // 2–3 chars for the card badge
+  install: "theme = 'darkmatter'",  // optional, copyable
+}
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+New categories go in the `Category` union and the `categories` array below it.
 
-## 👀 Want to learn more?
+## Commands
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command        | Action                                |
+| :------------- | :------------------------------------ |
+| `bun install`  | Install dependencies                  |
+| `bun dev`      | Dev server at `localhost:4321`        |
+| `bun build`    | Build to `./dist/`                    |
+| `bun preview`  | Preview the build                     |
