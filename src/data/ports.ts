@@ -69,9 +69,9 @@ export const ports: Port[] = [
     description:
       "A full colorscheme with treesitter, LSP, and plugin highlights. Lazy loadable.",
     category: "Editor",
-    url: "https://github.com/darkmattertheme/darkmatter.nvim",
+    url: "https://github.com/darkmattertheme/nvim",
     sigil: "nv",
-    install: '{ "darkmattertheme/darkmatter.nvim" }',
+    install: '{ "darkmattertheme/nvim" }',
   },
   {
     name: "Zed",
@@ -106,9 +106,9 @@ export const ports: Port[] = [
     description:
       "A Yazi flavor with Darkmatter file colors, icons, and code previews.",
     category: "Tools",
-    url: "https://github.com/darkmattertheme/darkmatter.yazi",
+    url: "https://github.com/darkmattertheme/yazi",
     sigil: "yz",
-    install: "ya pkg add darkmattertheme/darkmatter",
+    install: "git clone https://github.com/darkmattertheme/yazi ~/.config/yazi/flavors/darkmatter.yazi",
   },
   {
     name: "OpenCode",
@@ -137,13 +137,13 @@ export const ports: Port[] = [
     sigil: "nu",
   },
   {
-    name: "Linux Desktop",
-    slug: "linux",
+    name: "GTK",
+    slug: "gtk",
     description:
       "GTK 3 and 4 and xfwm4 window decorations, with wallpapers. A whole desktop in the dark.",
     category: "Desktop",
-    url: "https://github.com/darkmattertheme/linux",
-    sigil: "lx",
+    url: "https://github.com/darkmattertheme/gtk3",
+    sigil: "gtk",
   },
   {
     name: "Rofi",
@@ -168,7 +168,7 @@ export const ports: Port[] = [
     description:
       "The Darkmatter palette as a Polybar colors.ini, ready to include in your bar.",
     category: "Desktop",
-    url: "https://github.com/darkmattertheme/polybar",
+    url: "https://github.com/stevedylandev/polybar",
     sigil: "pb",
   },
   {
