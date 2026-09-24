@@ -1,6 +1,6 @@
 # darkmatter-theme
 
-The site for [DARKMATTER](https://github.com/stevedylandev/darkmatter) — a dark
+The site for [DARKMATTER](https://github.com/darkmattertheme) — a dark
 theme based on [Black Metal Bathory](https://github.com/metalelf0/base16-black-metal-scheme).
 
 ## Structure
@@ -30,7 +30,7 @@ Append an object to `ports` in `src/data/ports.ts`. Both the landing page and
   slug: "helix",
   description: "A theme.toml for the Helix editor.",
   category: "Editor",
-  url: "https://github.com/stevedylandev/…",
+  url: "https://github.com/darkmattertheme/…",
   sigil: "hx",          // 2–3 chars for the card badge
   install: "theme = 'darkmatter'",  // optional, copyable
 }

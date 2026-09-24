@@ -29,19 +29,19 @@ export const ports: Port[] = [
     name: "Ghostty",
     slug: "ghostty",
     description:
-      "The home planet. Full palette plus the window, padding, and font defaults DARKMATTER ships with.",
+      "The home planet. Drop the theme file into Ghostty's themes directory and point your config at it.",
     category: "Terminal",
-    url: "https://github.com/stevedylandev/darkmatter/blob/main/config",
+    url: "https://github.com/darkmattertheme/ghostty",
     sigil: "gt",
-    install: "curl -sSL https://darkmatter.build/install.sh | bash",
+    install: "theme = darkmatter",
   },
   {
     name: "WezTerm",
     slug: "wezterm",
     description:
-      "A Darkmatter color_scheme table you can drop straight into your wezterm.lua.",
+      "A Darkmatter color scheme for WezTerm, as a colors TOML file or a Lua table.",
     category: "Terminal",
-    url: "https://github.com/stevedylandev/dotfiles/blob/main/wezterm/.wezterm.lua",
+    url: "https://github.com/darkmattertheme/wezterm",
     sigil: "wz",
     install: "config.color_scheme = 'Darkmatter'",
   },
@@ -51,8 +51,17 @@ export const ports: Port[] = [
     description:
       "Primary, normal, and bright color blocks in TOML for Alacritty 0.13 and up.",
     category: "Terminal",
-    url: "https://github.com/stevedylandev/linux-dotfiles/blob/main/alacritty/alacritty.toml",
+    url: "https://github.com/darkmattertheme/alacritty",
     sigil: "al",
+  },
+  {
+    name: "st",
+    slug: "st",
+    description:
+      "A colorname block for the suckless simple terminal. Paste it into config.h and rebuild.",
+    category: "Terminal",
+    url: "https://github.com/darkmattertheme/st",
+    sigil: "st",
   },
   {
     name: "Neovim",
@@ -60,9 +69,9 @@ export const ports: Port[] = [
     description:
       "A full colorscheme with treesitter, LSP, and plugin highlights. Lazy loadable.",
     category: "Editor",
-    url: "https://github.com/stevedylandev/darkmatter-nvim",
+    url: "https://github.com/darkmattertheme/darkmatter.nvim",
     sigil: "nv",
-    install: '{ "stevedylandev/darkmatter-nvim" }',
+    install: '{ "darkmattertheme/darkmatter.nvim" }',
   },
   {
     name: "Zed",
@@ -70,7 +79,7 @@ export const ports: Port[] = [
     description:
       "Darkmatter as a Zed theme extension, covering the editor, terminal, and UI chrome.",
     category: "Editor",
-    url: "https://github.com/stevedylandev/darkmatter-theme-zed",
+    url: "https://github.com/darkmattertheme/zed",
     sigil: "zd",
   },
   {
@@ -92,12 +101,31 @@ export const ports: Port[] = [
     sigil: "tm",
   },
   {
+    name: "Yazi",
+    slug: "yazi",
+    description:
+      "A Yazi flavor with Darkmatter file colors, icons, and code previews.",
+    category: "Tools",
+    url: "https://github.com/darkmattertheme/darkmatter.yazi",
+    sigil: "yz",
+    install: "ya pkg add darkmattertheme/darkmatter",
+  },
+  {
     name: "OpenCode",
     slug: "opencode",
     description: "Theme JSON for the OpenCode terminal agent.",
     category: "Tools",
-    url: "https://github.com/stevedylandev/dotfiles/blob/main/opencode/themes/darkmatter.json",
+    url: "https://github.com/darkmattertheme/opencode",
     sigil: "oc",
+  },
+  {
+    name: "Amfora",
+    slug: "amfora",
+    description:
+      "Page, link, and modal colors for the Amfora Gemini browser.",
+    category: "Tools",
+    url: "https://github.com/darkmattertheme/amfora",
+    sigil: "am",
   },
   {
     name: "Nushell",
@@ -112,9 +140,9 @@ export const ports: Port[] = [
     name: "Linux Desktop",
     slug: "linux",
     description:
-      "GTK 3 and 4, xfwm4, and dunst, with wallpapers. A whole desktop in the dark.",
+      "GTK 3 and 4 and xfwm4 window decorations, with wallpapers. A whole desktop in the dark.",
     category: "Desktop",
-    url: "https://github.com/stevedylandev/darkmatter-linux",
+    url: "https://github.com/darkmattertheme/linux",
     sigil: "lx",
   },
   {
@@ -122,8 +150,35 @@ export const ports: Port[] = [
     slug: "rofi",
     description: "A rasi theme for the Rofi launcher.",
     category: "Desktop",
-    url: "https://github.com/stevedylandev/linux-dotfiles/blob/main/rofi/darkmatter.rasi",
+    url: "https://github.com/darkmattertheme/rofi",
     sigil: "rf",
+  },
+  {
+    name: "Dunst",
+    slug: "dunst",
+    description:
+      "Notification colors for Dunst, with frames and progress bars keyed to urgency.",
+    category: "Desktop",
+    url: "https://github.com/darkmattertheme/dunst",
+    sigil: "dn",
+  },
+  {
+    name: "Polybar",
+    slug: "polybar",
+    description:
+      "The Darkmatter palette as a Polybar colors.ini, ready to include in your bar.",
+    category: "Desktop",
+    url: "https://github.com/darkmattertheme/polybar",
+    sigil: "pb",
+  },
+  {
+    name: "Darkmatter",
+    slug: "darkmatter",
+    description:
+      "The core palette in CSS, Sass, Less, Stylus, JSON, Xresources, base16, and GIMP swatches.",
+    category: "Foundation",
+    url: "https://github.com/darkmattertheme/darkmatter",
+    sigil: "dm",
   },
   {
     name: "base16",
