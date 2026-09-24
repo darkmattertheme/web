@@ -37,7 +37,7 @@ const featured = ports.slice(0, 6);
 	<section class="section">
 		<div class="wrap split">
 			<div class="copy">
-				<h2 class="h2">Sixteen colors</h2>
+				<h2 class="h2">A classic reborn</h2>
 				<p class="lead">
         Darkmatter is based on the original <a href="https://github.com/metalelf0/base16-black-metal-scheme" target="_blank" rel="noreferrer">Black Metal Bathory</a> colorscheme with a slightly different twist on the primary background, providing a sublte yet warm experience.
 				</p>
@@ -75,7 +75,7 @@ const featured = ports.slice(0, 6);
 		<div class="wrap">
 			<div class="row">
 				<div>
-					<h2 class="h2">Every slot, every hex</h2>
+					<h2 class="h2">Base16 simplicity</h2>
 					<p class="lead">
 						Click any swatch to copy it. These sixteen values are all you need
 						to build a port of your own.
@@ -176,8 +176,8 @@ const featured = ports.slice(0, 6);
 
 	/* ansi strip */
 	.ansi {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(8, 30px);
 		gap: 5px;
 		margin-top: 26px;
 	}
