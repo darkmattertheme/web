@@ -83,21 +83,12 @@ export const ports: Port[] = [
     sigil: "zd",
   },
   {
-    name: "Vim",
-    slug: "vim",
-    description:
-      "A lightline colorscheme that keeps the statusline in orbit with the rest of the theme.",
-    category: "Editor",
-    url: "https://github.com/stevedylandev/dotfiles/blob/main/vim/dot-vim/autoload/lightline/colorscheme/darkmatter.vim",
-    sigil: "vi",
-  },
-  {
     name: "TextMate",
     slug: "textmate",
     description:
       "A .tmTheme for anything that speaks TextMate grammars, including bat and Sublime Text.",
     category: "Editor",
-    url: "https://github.com/stevedylandev/darkmatter/blob/main/dark.tmTheme",
+    url: "https://github.com/darkmattertheme/textmate",
     sigil: "tm",
   },
   {
@@ -133,7 +124,7 @@ export const ports: Port[] = [
     description:
       "Syntax and table colors for Nushell, matching the terminal palette exactly.",
     category: "Shell",
-    url: "https://github.com/stevedylandev/dotfiles/blob/main/nushell/darkmatter.nu",
+    url: "https://github.com/darkmattertheme/nushell",
     sigil: "nu",
   },
   {
@@ -168,7 +159,7 @@ export const ports: Port[] = [
     description:
       "The Darkmatter palette as a Polybar colors.ini, ready to include in your bar.",
     category: "Desktop",
-    url: "https://github.com/stevedylandev/polybar",
+    url: "https://github.com/darkmattertheme/polybar",
     sigil: "pb",
   },
   {
@@ -179,15 +170,6 @@ export const ports: Port[] = [
     category: "Foundation",
     url: "https://github.com/darkmattertheme/darkmatter",
     sigil: "dm",
-  },
-  {
-    name: "base16",
-    slug: "base16",
-    description:
-      "The scheme Darkmatter orbits: Black Metal Bathory, in base16 form. Build your own port from it.",
-    category: "Foundation",
-    url: "https://github.com/stevedylandev/base16-black-metal-scheme",
-    sigil: "b16",
   },
 ];
 
