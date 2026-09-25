@@ -1,11 +1,17 @@
-export type Category =
-  | "Terminal"
-  | "Editor"
-  | "Shell"
-  | "Desktop"
-  | "Tools"
-  | "Foundation";
+import { readFile } from "node:fs/promises";
 
+// The port list lives in darkmattertheme/darkmatter as ports.json, so ports are
+// added there rather than here. It's read once at build time. Set
+// DARKMATTER_PORTS to a local path or another URL to override it, e.g.
+// DARKMATTER_PORTS=../darkmatter/ports.json bun dev
+const source =
+  process.env.DARKMATTER_PORTS ??
+  "https://raw.githubusercontent.com/darkmattertheme/darkmatter/main/ports.json";
+
+/** One of the categories listed in ports.json */
+export type Category = string;
+
+/** Icons that exist in src/icons and are wired up in PortCard */
 export type PortIcon =
   | "ghostty"
   | "alacritty"
@@ -29,161 +35,28 @@ export interface Port {
   /** Where the theme lives */
   url: string;
   /** Dashboard icon shown in the card sigil; falls back to a terminal glyph */
-  icon?: PortIcon;
+  icon?: PortIcon | (string & {});
   /** Optional copyable install / usage snippet */
   install?: string;
   /** Marks a port as still in progress */
   wip?: boolean;
 }
 
-export const ports: Port[] = [
-  {
-    name: "Ghostty",
-    slug: "ghostty",
-    description:
-      "The home planet. Drop the theme file into Ghostty's themes directory and point your config at it.",
-    category: "Terminal",
-    url: "https://github.com/darkmattertheme/ghostty",
-    install: "theme = darkmatter",
-    icon: "ghostty",
-  },
-  {
-    name: "WezTerm",
-    slug: "wezterm",
-    icon: "wezterm",
-    description:
-      "A Darkmatter color scheme for WezTerm, as a colors TOML file or a Lua table.",
-    category: "Terminal",
-    url: "https://github.com/darkmattertheme/wezterm",
-    install: "config.color_scheme = 'Darkmatter'",
-  },
-  {
-    name: "Alacritty",
-    slug: "alacritty",
-    icon: "alacritty",
-    description:
-      "Primary, normal, and bright color blocks in TOML for Alacritty 0.13 and up.",
-    category: "Terminal",
-    url: "https://github.com/darkmattertheme/alacritty",
-  },
-  {
-    name: "st",
-    slug: "st",
-    description:
-      "A colorname block for the suckless simple terminal. Paste it into config.h and rebuild.",
-    category: "Terminal",
-    url: "https://github.com/darkmattertheme/st",
-  },
-  {
-    name: "Neovim",
-    slug: "neovim",
-    description:
-      "A full colorscheme with treesitter, LSP, and plugin highlights. Lazy loadable.",
-    category: "Editor",
-    url: "https://github.com/darkmattertheme/nvim",
-    icon: "neovim",
-    install: '{ "darkmattertheme/nvim" }',
-  },
-  {
-    name: "Zed",
-    slug: "zed",
-    icon: "zed",
-    description:
-      "Darkmatter as a Zed theme extension, covering the editor, terminal, and UI chrome.",
-    category: "Editor",
-    url: "https://github.com/darkmattertheme/zed",
-  },
-  {
-    name: "TextMate",
-    slug: "textmate",
-    description:
-      "A .tmTheme for anything that speaks TextMate grammars, including bat and Sublime Text.",
-    category: "Editor",
-    url: "https://github.com/darkmattertheme/textmate",
-  },
-  {
-    name: "Yazi",
-    slug: "yazi",
-    icon: "yazi",
-    description:
-      "A Yazi flavor with Darkmatter file colors, icons, and code previews.",
-    category: "Tools",
-    url: "https://github.com/darkmattertheme/yazi",
-    install: "git clone https://github.com/darkmattertheme/yazi ~/.config/yazi/flavors/darkmatter.yazi",
-  },
-  {
-    name: "OpenCode",
-    slug: "opencode",
-    icon: "opencode",
-    description: "Theme JSON for the OpenCode terminal agent.",
-    category: "Tools",
-    url: "https://github.com/darkmattertheme/opencode",
-  },
-  {
-    name: "Amfora",
-    slug: "amfora",
-    description:
-      "Page, link, and modal colors for the Amfora Gemini browser.",
-    category: "Tools",
-    url: "https://github.com/darkmattertheme/amfora",
-  },
-  {
-    name: "Nushell",
-    slug: "nushell",
-    icon: "nushell",
-    description:
-      "Syntax and table colors for Nushell, matching the terminal palette exactly.",
-    category: "Shell",
-    url: "https://github.com/darkmattertheme/nushell",
-  },
-  {
-    name: "GTK",
-    slug: "gtk",
-    icon: "gtk",
-    description:
-      "GTK 3 and 4 and xfwm4 window decorations, with wallpapers. A whole desktop in the dark.",
-    category: "Desktop",
-    url: "https://github.com/darkmattertheme/gtk3",
-  },
-  {
-    name: "Rofi",
-    slug: "rofi",
-    description: "A rasi theme for the Rofi launcher.",
-    category: "Desktop",
-    url: "https://github.com/darkmattertheme/rofi",
-  },
-  {
-    name: "Dunst",
-    slug: "dunst",
-    description:
-      "Notification colors for Dunst, with frames and progress bars keyed to urgency.",
-    category: "Desktop",
-    url: "https://github.com/darkmattertheme/dunst",
-  },
-  {
-    name: "Polybar",
-    slug: "polybar",
-    description:
-      "The Darkmatter palette as a Polybar colors.ini, ready to include in your bar.",
-    category: "Desktop",
-    url: "https://github.com/darkmattertheme/polybar",
-  },
-  {
-    name: "Darkmatter",
-    slug: "darkmatter",
-    icon: "darkmatter",
-    description:
-      "The core palette in CSS, Sass, Less, Stylus, JSON, Xresources, base16, and GIMP swatches.",
-    category: "Foundation",
-    url: "https://github.com/darkmattertheme/darkmatter",
-  },
-];
+async function load(): Promise<{ categories: Category[]; ports: Port[] }> {
+  if (!/^https?:\/\//.test(source)) {
+    return JSON.parse(await readFile(source, "utf8"));
+  }
+  const res = await fetch(source);
+  if (!res.ok) {
+    throw new Error(`Couldn't load ports from ${source}: ${res.status} ${res.statusText}`);
+  }
+  return res.json();
+}
 
-export const categories: Category[] = [
-  "Terminal",
-  "Editor",
-  "Shell",
-  "Desktop",
-  "Tools",
-  "Foundation",
-];
+const data = await load();
+if (!Array.isArray(data.ports) || !Array.isArray(data.categories)) {
+  throw new Error(`${source} doesn't look like ports.json: expected "categories" and "ports" arrays`);
+}
+
+export const ports: Port[] = data.ports;
+export const categories: Category[] = data.categories;

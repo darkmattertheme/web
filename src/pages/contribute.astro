@@ -1,0 +1,249 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const core = "https://github.com/darkmattertheme/darkmatter";
+const guide = `${core}/blob/main/CONTRIBUTING.md`;
+
+const ways = [
+	{
+		title: "Report a bug",
+		body: "Something looks off in a port? Open an issue in that port's repo, with a screenshot.",
+		href: "/ports",
+		link: "Find the port",
+	},
+	{
+		title: "Make a port",
+		body: "Theme an app that isn't on the list yet. The steps are below.",
+		href: `${core}/issues/new?template=port-request.yml`,
+		link: "Request a port",
+	},
+	{
+		title: "Fix the site",
+		body: "This site is an Astro project. Pull requests welcome.",
+		href: "https://github.com/darkmattertheme/web",
+		link: "darkmattertheme/web",
+	},
+	{
+		title: "Change the palette",
+		body: "Every port copies the colors, so open an issue to talk it through first.",
+		href: `${core}/issues/new?template=palette.yml`,
+		link: "Open an issue",
+	},
+];
+
+const steps = [
+	{
+		title: "Check it doesn't exist",
+		body: "Look through the ports and the open port requests.",
+	},
+	{
+		title: "Request it (optional)",
+		body: "Open a Port Request to talk it through, or if you'd like someone else to build it.",
+	},
+	{
+		title: "Start from the template",
+		body: "Create a repo on your account from darkmattertheme/template.",
+	},
+	{
+		title: "Build the theme",
+		body: "Use only palette colors, and keep Ember for what the eye should land on.",
+	},
+	{
+		title: "Submit it for review",
+		body: "Open a Port Review with a link to your repo and a screenshot.",
+	},
+	{
+		title: "Move it into the org",
+		body: "Once it's approved, transfer the repo to darkmattertheme. You stay on as a maintainer.",
+	},
+	{
+		title: "List it",
+		body: "Add the port to ports.json in the core repo. It shows up here on the next build.",
+	},
+];
+---
+
+<Layout
+	title="Contribute — DARKMATTER"
+	description="How to report bugs, make new Darkmatter ports, and get them listed."
+>
+	<section class="head">
+		<div class="wrap">
+			<h1 class="title">Contribute</h1>
+			<p class="lead">
+				Darkmatter is a palette and a pile of ports, and most of it came from
+				someone wanting it in one more app. Here's how to help.
+			</p>
+		</div>
+	</section>
+
+	<section class="block">
+		<div class="wrap">
+			<h2 class="h2">Ways to help</h2>
+			<div class="ways pad">
+				{
+					ways.map((way) => (
+						<a class="way" href={way.href}>
+							<h3 class="way-title">{way.title}</h3>
+							<p class="way-body">{way.body}</p>
+							<span class="way-link">{way.link} →</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="block last">
+		<div class="wrap">
+			<h2 class="h2">Making a port</h2>
+			<p class="lead pad-sm">
+				A port is a theme for one app, in its own repo under the
+				darkmattertheme org. The
+				<a href={guide}>contributing guide</a> has the details.
+			</p>
+
+			<ol class="steps pad">
+				{
+					steps.map((step, i) => (
+						<li class="step">
+							<span class="step-n">{String(i + 1).padStart(2, "0")}</span>
+							<div>
+								<h3 class="step-title">{step.title}</h3>
+								<p class="step-body">{step.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<div class="actions pad">
+				<a class="btn btn--primary" href={guide}>Read the guide</a>
+				<a class="btn" href="https://github.com/darkmattertheme/template">
+					Use the template
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.head {
+		padding-top: clamp(48px, 9vw, 88px);
+	}
+
+	.title {
+		font-size: clamp(1.9rem, 6vw, 3rem);
+		margin-bottom: 16px;
+	}
+
+	.h2 {
+		font-size: clamp(1.25rem, 3.4vw, 1.6rem);
+	}
+
+	.block {
+		padding-top: clamp(44px, 7vw, 72px);
+	}
+
+	.last {
+		padding-bottom: clamp(56px, 9vw, 96px);
+	}
+
+	.pad {
+		margin-top: 24px;
+	}
+
+	.pad-sm {
+		margin-top: 10px;
+	}
+
+	.lead a {
+		color: var(--accent);
+		border-bottom: 1px solid rgba(231, 138, 83, 0.4);
+	}
+
+	/* ways to help */
+	.ways {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 12px;
+	}
+
+	.way {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 18px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+		transition: border-color 0.16s ease, background 0.16s ease;
+	}
+
+	.way:hover {
+		border-color: var(--border-bright);
+		background: var(--surface-hover);
+		color: inherit;
+	}
+
+	.way-title {
+		font-size: 15px;
+	}
+
+	.way-body {
+		flex: 1;
+		font-size: 13px;
+		color: var(--text-dim);
+	}
+
+	.way-link {
+		font-size: 13px;
+		color: var(--accent);
+	}
+
+	/* steps */
+	.steps {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		gap: 0;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+		max-width: 760px;
+	}
+
+	.step {
+		display: flex;
+		gap: 16px;
+		padding: 16px 18px;
+	}
+
+	.step + .step {
+		border-top: 1px solid var(--border);
+	}
+
+	.step-n {
+		flex: none;
+		color: var(--accent);
+		font-size: 13px;
+		line-height: 1.6;
+	}
+
+	.step-title {
+		font-size: 14.5px;
+		line-height: 1.5;
+	}
+
+	.step-body {
+		margin-top: 2px;
+		font-size: 13px;
+		color: var(--text-dim);
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+</style>

@@ -35,8 +35,8 @@ interface Props {
 }
 
 const { port } = Astro.props;
-const image = port.icon && images[port.icon];
-const Glyph = (port.icon && glyphs[port.icon]) || Terminal;
+const image = port.icon && images[port.icon as PortIcon];
+const Glyph = (port.icon && glyphs[port.icon as PortIcon]) || Terminal;
 ---
 
 <article class="card" id={port.slug} data-category={port.category}>

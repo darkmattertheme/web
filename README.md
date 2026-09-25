@@ -10,33 +10,35 @@ src/
 ├── components/     Starfield, Nav, Footer, PortCard, Palette, CodePreview
 ├── data/
 │   ├── palette.ts  the 16 base16 slots + the ANSI mapping
-│   └── ports.ts    every port, as an array of objects
+│   └── ports.ts    loads ports.json from darkmattertheme/darkmatter
 ├── layouts/        Layout.astro (meta, starfield, chrome)
 ├── pages/
-│   ├── index.astro landing page
-│   └── ports.astro all ports, filterable by category
+│   ├── index.astro      landing page
+│   ├── ports.astro      all ports, filterable by category
+│   ├── palette.astro    the palette and ANSI mapping
+│   └── contribute.astro how to help and make a port
 └── styles/
     └── global.css  palette as CSS custom properties + primitives
 ```
 
-## Adding a port
+## Ports
 
-Append an object to `ports` in `src/data/ports.ts`. Both the landing page and
-`/ports` map over that array, so nothing else needs to change.
+The port list isn't in this repo. It lives in
+[`ports.json`](https://github.com/darkmattertheme/darkmatter/blob/main/ports.json)
+in the core repo, and `src/data/ports.ts` fetches it at build time. To add a
+port, follow the
+[contributing guide](https://github.com/darkmattertheme/darkmatter/blob/main/CONTRIBUTING.md).
 
-```ts
-{
-  name: "Helix",
-  slug: "helix",
-  description: "A theme.toml for the Helix editor.",
-  category: "Editor",
-  url: "https://github.com/darkmattertheme/…",
-  sigil: "hx",          // 2–3 chars for the card badge
-  install: "theme = 'darkmatter'",  // optional, copyable
-}
+To work against a local copy, point `DARKMATTER_PORTS` at it:
+
+```sh
+DARKMATTER_PORTS=../darkmatter/ports.json bun dev
 ```
 
-New categories go in the `Category` union and the `categories` array below it.
+A port's `icon` has to match one in `src/icons/`, wired up in
+`src/components/PortCard.astro`. To add an icon, put the file in `src/icons/`,
+add its name to the `PortIcon` union in `src/data/ports.ts` and to the `glyphs`
+or `images` map in `PortCard.astro`. Ports without an icon get a terminal glyph.
 
 ## Commands
 
