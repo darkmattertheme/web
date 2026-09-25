@@ -1,16 +1,55 @@
 ---
-import type { Port } from "../data/ports";
+import { Image } from "astro:assets";
+import type { Port, PortIcon } from "../data/ports";
+import Alacritty from "../icons/alacritty.svg";
+import Terminal from "../icons/terminal.svg";
+import darkmatter from "../icons/darkmatter.svg";
+import ghostty from "../icons/ghostty.svg";
+import gtk from "../icons/gtk.svg";
+import neovim from "../icons/neovim.svg";
+import nushell from "../icons/nushell.svg";
+import opencode from "../icons/opencode.svg";
+import wezterm from "../icons/wezterm.svg";
+import yazi from "../icons/yazi.png";
+import zed from "../icons/zed.svg";
+
+// Brand icons keep their own colors; glyphs inherit the accent via currentColor.
+const glyphs: Partial<Record<PortIcon, typeof Terminal>> = {
+	alacritty: Alacritty,
+};
+
+const images: Partial<Record<PortIcon, ImageMetadata>> = {
+	darkmatter,
+	ghostty,
+	gtk,
+	neovim,
+	nushell,
+	opencode,
+	wezterm,
+	yazi,
+	zed,
+};
 
 interface Props {
 	port: Port;
 }
 
 const { port } = Astro.props;
+const image = port.icon && images[port.icon];
+const Glyph = (port.icon && glyphs[port.icon]) || Terminal;
 ---
 
 <article class="card" id={port.slug} data-category={port.category}>
 	<div class="head">
-		<span class="sigil" aria-hidden="true">{port.sigil}</span>
+		<span class="sigil" aria-hidden="true">
+			{
+				image ? (
+					<Image src={image} alt="" height={22} densities={[1, 2]} />
+				) : (
+					<Glyph width={20} height={20} />
+				)
+			}
+		</span>
 		<div class="titles">
 			<h3 class="name">
 				<a href={port.url} target="_blank" rel="noreferrer">
@@ -84,8 +123,6 @@ const { port } = Astro.props;
 		border: 1px solid var(--border-bright);
 		background: var(--base01);
 		color: var(--accent);
-		font-size: 12px;
-		letter-spacing: 0.04em;
 		transition: color 0.2s ease, box-shadow 0.2s ease;
 	}
 
