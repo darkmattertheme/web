@@ -22,6 +22,7 @@ export type PortIcon =
   | "wezterm"
   | "nushell"
   | "gtk"
+  | "shadcn"
   | "darkmatter";
 
 export interface Port {

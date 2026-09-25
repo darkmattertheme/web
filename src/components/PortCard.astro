@@ -9,6 +9,7 @@ import gtk from "../icons/gtk.svg";
 import neovim from "../icons/neovim.svg";
 import nushell from "../icons/nushell.svg";
 import opencode from "../icons/opencode.svg";
+import Shadcn from "../icons/shadcn.svg";
 import wezterm from "../icons/wezterm.svg";
 import yazi from "../icons/yazi.png";
 import zed from "../icons/zed.svg";
@@ -16,6 +17,7 @@ import zed from "../icons/zed.svg";
 // Brand icons keep their own colors; glyphs inherit the accent via currentColor.
 const glyphs: Partial<Record<PortIcon, typeof Terminal>> = {
 	alacritty: Alacritty,
+	shadcn: Shadcn,
 };
 
 const images: Partial<Record<PortIcon, ImageMetadata>> = {
