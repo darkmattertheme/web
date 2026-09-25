@@ -1,4 +1,13 @@
-# darkmatter-theme
+<h3 align="center">
+	<img src="assets/logo.svg" width="100" alt="Logo"/><br/>
+	<img src="assets/transparent.svg" height="30" width="0px"/>
+	darkmatter-theme
+	<img src="assets/transparent.svg" height="30" width="0px"/>
+</h3>
+
+<p align="center">
+	<img src="assets/preview.webp" alt="darkmatter-theme"/>
+</p>
 
 The site for [DARKMATTER](https://github.com/darkmattertheme) — a dark
 theme based on [Black Metal Bathory](https://github.com/metalelf0/base16-black-metal-scheme).
