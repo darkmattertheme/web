@@ -19,6 +19,7 @@ export type PortIcon =
   | "yazi"
   | "opencode"
   | "zed"
+  | "emacs"
   | "wezterm"
   | "nushell"
   | "gtk"
